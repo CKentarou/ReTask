@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/bootstrap.html :: head"></head>
+<body>
+<div th:if="${projectList} != null">
+    <h2>プロジェクト一覧</h2>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>プロジェクトID</th>
+                <th>プロジェクト名</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="project : ${projectList}">
+                <td th:text="${project.projectId}"></td>
+                <td th:text="${project.projectName}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
