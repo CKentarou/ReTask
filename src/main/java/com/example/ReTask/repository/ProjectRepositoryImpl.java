@@ -24,7 +24,7 @@ public class ProjectRepositoryImpl implements ProjectRepository{
         List<Project> result = new ArrayList<Project>();
         for (Map<String, Object> one : list) {
             Project project = new Project();
-            project.setProjectId((int)one.get("id"));
+            project.setProjectId(((Number) one.get("id")).intValue());
             project.setProjectName((String)one.get("name"));
             project.setProjectDescription((String)one.get("description"));
 
