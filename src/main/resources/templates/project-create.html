@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/bootstrap.html :: head"></head>
 <body>
 <h2>新規プロジェクト</h2>
+<form th:action="@{/project/create}" th:object="${projectForm}" method="post">
+    <div class="mb-3">
+        <label for="projectName" class="form-label">プロジェクト名</label>
+        <input type="text" th:field="*{projectName}" class="form-control" id="projectName" name="projectName" required>
+    </div>
+    <div class="mb-3">
+        <label for="projectDescription" class="form-label">プロジェクト説明</label>
+        <textarea th:field="*{projectDescription}" class="form-control" id="projectDescription" name="projectDescription" required></textarea>
+    </div>
+    <input type="submit" class="btn btn-primary" value="プロジェクト作成">
+</form>
+<a th:href="@{/projects}" class="btn btn-secondary">プロジェクト一覧に戻る</a>
 </body>
 </html>
