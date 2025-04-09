@@ -27,7 +27,8 @@ public class ProjectController {
     }
 
     @GetMapping("/project/create")
-    public String projectCreate() {
+    public String projectCreate(Model model) {
+        model.addAttribute("title", "プロジェクト作成");
         return "project-create";
     }
 }
