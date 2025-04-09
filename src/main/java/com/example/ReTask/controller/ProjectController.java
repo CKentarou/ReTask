@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -29,10 +30,17 @@ public class ProjectController {
     }
 
     @GetMapping("/project/create")
-    public String projectCreate(@ModelAttribute ProjectForm form, Model model) {
+    public String showProjectForm(@ModelAttribute ProjectForm form, Model model) {
         model.addAttribute("title", "プロジェクト作成");
         return "project-create";
     }
 
+    @PostMapping("/project/create")
+    public String projectCreate(@ModelAttribute ProjectForm form, Model model) {
+        Project project = form.toProject();
+        System.out.println(project);
+
+        return "redirect:/projects";
+    }
 
 }
