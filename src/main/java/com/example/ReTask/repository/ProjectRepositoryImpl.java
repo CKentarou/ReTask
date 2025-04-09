@@ -38,7 +38,6 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     public Project findProjectById(Integer projectId) {
         String sql = "SELECT * FROM projects WHERE id = ?";
 
-        System.out.println("取得しました");
         return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
             Project project = new Project();
             project.setProjectId(rs.getInt("id"));
