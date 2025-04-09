@@ -33,4 +33,13 @@ public class ProjectRepositoryImpl implements ProjectRepository{
 
         return result;
     }
+
+    @Override
+    public void save(Project project) {
+        String sql = "INSERT INTO projects (name, description) VALUES (?, ?)";
+
+        jdbcTemplate.update(sql, project.getProjectName(), project.getProjectDescription());
+    }
+
+
 }
