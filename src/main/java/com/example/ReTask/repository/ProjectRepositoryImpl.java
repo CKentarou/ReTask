@@ -38,7 +38,6 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     public Project findProjectById(Integer projectId) {
         String sql = "SELECT * FROM projects WHERE id = ?";
 
-        System.out.println("取得しました");
         return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
             Project project = new Project();
             project.setProjectId(rs.getInt("id"));
@@ -53,6 +52,13 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         String sql = "INSERT INTO projects (name, description) VALUES (?, ?)";
 
         jdbcTemplate.update(sql, project.getProjectName(), project.getProjectDescription());
+    }
+
+    @Override
+    public void deleteById(Integer projectId) {
+        String sql = "DELETE FROM projects WHERE id = ?";
+
+        jdbcTemplate.update(sql, projectId);
     }
 
 
