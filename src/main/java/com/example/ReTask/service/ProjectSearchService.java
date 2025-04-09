@@ -4,7 +4,9 @@ import com.example.ReTask.entity.Project;
 
 import java.util.List;
 
-public interface ProjectListService {
+public interface ProjectSearchService {
     //プロジェクトの全件取得
     List<Project> findAll();
+
+    Project findProjectById(Integer projectId);
 }
