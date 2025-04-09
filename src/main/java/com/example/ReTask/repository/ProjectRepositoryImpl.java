@@ -11,7 +11,7 @@ import java.util.Map;
 
 @Repository
 @RequiredArgsConstructor
-public class ProjectRepositoryImpl implements ProjectRepository{
+public class ProjectRepositoryImpl implements ProjectRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -25,13 +25,27 @@ public class ProjectRepositoryImpl implements ProjectRepository{
         for (Map<String, Object> one : list) {
             Project project = new Project();
             project.setProjectId(((Number) one.get("id")).intValue());
-            project.setProjectName((String)one.get("name"));
-            project.setProjectDescription((String)one.get("description"));
+            project.setProjectName((String) one.get("name"));
+            project.setProjectDescription((String) one.get("description"));
 
             result.add(project);
         }
 
         return result;
+    }
+
+    @Override
+    public Project findProjectById(Integer projectId) {
+        String sql = "SELECT * FROM projects WHERE id = ?";
+
+        System.out.println("取得しました");
+        return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
+            Project project = new Project();
+            project.setProjectId(rs.getInt("id"));
+            project.setProjectName(rs.getString("name"));
+            project.setProjectDescription(rs.getString("description"));
+            return project;
+        }, projectId);
     }
 
     @Override

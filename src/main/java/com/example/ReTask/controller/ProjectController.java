@@ -1,13 +1,11 @@
 package com.example.ReTask.controller;
 
 import com.example.ReTask.entity.Project;
+import com.example.ReTask.form.ProjectDetailForm;
 import com.example.ReTask.form.ProjectForm;
-import com.example.ReTask.service.ProjectListService;
+import com.example.ReTask.service.ProjectSearchService;
 import com.example.ReTask.service.ProjectRegistService;
-import com.example.ReTask.service.ProjectRegistServiceImpl;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,18 +16,18 @@ import java.util.List;
 @Controller
 public class ProjectController {
 
-    private final ProjectListService selectservice;
-    private final ProjectRegistService registservice;
+    private final ProjectSearchService searchService;
+    private final ProjectRegistService registService;
 
-    public ProjectController(ProjectListService selectservice, ProjectRegistService registservice) {
-        this.selectservice = selectservice;
-        this.registservice = registservice;
+    public ProjectController(ProjectSearchService searchService, ProjectRegistService registService) {
+        this.searchService = searchService;
+        this.registService = registService;
     }
 
     @GetMapping("/projects")
     public String projectList(Model model) {
 
-        List<Project> list = selectservice.findAll();
+        List<Project> list = searchService.findAll();
 
         model.addAttribute("projectList", list);
         model.addAttribute("title", "プロジェクト一覧");
@@ -45,8 +43,16 @@ public class ProjectController {
     @PostMapping("/project/create")
     public String projectCreate(@ModelAttribute ProjectForm form, Model model) {
         Project project = form.toProject();
-        registservice.regist(project);
+        registService.regist(project);
         return "redirect:/projects";
     }
 
+    @PostMapping("/project/detail")
+    public String showProjectDetail(@ModelAttribute ProjectDetailForm form, Model model) {
+        Project project = searchService.findProjectById(form.getProjectId());
+
+        model.addAttribute("project", project);
+        model.addAttribute("title", "プロジェクト詳細");
+        return "project-detail";
+    }
 }

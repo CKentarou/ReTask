@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ProjectListServiceImpl implements ProjectListService{
+public class ProjectSearchServiceImpl implements ProjectSearchService {
 
     private final ProjectRepository repository;
 
@@ -18,5 +18,12 @@ public class ProjectListServiceImpl implements ProjectListService{
         List<Project> list = repository.findAll();
 
         return list;
+    }
+
+    @Override
+    public Project findProjectById(Integer projectId) {
+        Project project = repository.findProjectById(projectId);
+
+        return project;
     }
 }
