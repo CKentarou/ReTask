@@ -4,7 +4,7 @@ import com.example.ReTask.entity.Project;
 import lombok.Data;
 
 @Data
-public class ProjectForm {
+public class ProjectListForm {
     private String projectName;
     private String projectDescription;
 
