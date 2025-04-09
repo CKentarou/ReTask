@@ -19,10 +19,15 @@ public class ProjectController {
     @GetMapping("/projects")
     public String projectList(Model model) {
 
-        //仮のデータを追加
         List<Project> list = service.findAll();
 
         model.addAttribute("projectList", list);
+        model.addAttribute("title", "プロジェクト一覧");
         return "project-list";
+    }
+
+    @GetMapping("/project/create")
+    public String projectCreate() {
+        return "project-create";
     }
 }
