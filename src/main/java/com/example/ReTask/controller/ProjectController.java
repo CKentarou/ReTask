@@ -1,8 +1,10 @@
 package com.example.ReTask.controller;
 
 import com.example.ReTask.entity.Project;
+import com.example.ReTask.form.ProjectDeleteForm;
 import com.example.ReTask.form.ProjectDetailForm;
 import com.example.ReTask.form.ProjectForm;
+import com.example.ReTask.service.ProjectDeleteService;
 import com.example.ReTask.service.ProjectSearchService;
 import com.example.ReTask.service.ProjectRegistService;
 import org.springframework.stereotype.Controller;
@@ -18,10 +20,12 @@ public class ProjectController {
 
     private final ProjectSearchService searchService;
     private final ProjectRegistService registService;
+    private final ProjectDeleteService deleteService;
 
-    public ProjectController(ProjectSearchService searchService, ProjectRegistService registService) {
+    public ProjectController(ProjectSearchService searchService, ProjectRegistService registService, ProjectDeleteService deleteService) {
         this.searchService = searchService;
         this.registService = registService;
+        this.deleteService = deleteService;
     }
 
     @GetMapping("/projects")
@@ -54,5 +58,12 @@ public class ProjectController {
         model.addAttribute("project", project);
         model.addAttribute("title", "プロジェクト詳細");
         return "project-detail";
+    }
+
+    @PostMapping("/project/delete")
+    public String projectDelete(ProjectDeleteForm form) {
+        deleteService.deleteProject(form.getProjectId());
+
+        return "redirect:/projects";
     }
 }
