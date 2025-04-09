@@ -3,6 +3,8 @@ package com.example.ReTask.controller;
 import com.example.ReTask.entity.Project;
 import com.example.ReTask.form.ProjectForm;
 import com.example.ReTask.service.ProjectListService;
+import com.example.ReTask.service.ProjectRegistService;
+import com.example.ReTask.service.ProjectRegistServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
@@ -14,15 +16,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.util.List;
 
 @Controller
-@RequiredArgsConstructor
 public class ProjectController {
 
-    private final ProjectListService service;
+    private final ProjectListService selectservice;
+    private final ProjectRegistService registservice;
+
+    public ProjectController(ProjectListService selectservice, ProjectRegistService registservice) {
+        this.selectservice = selectservice;
+        this.registservice = registservice;
+    }
 
     @GetMapping("/projects")
     public String projectList(Model model) {
 
-        List<Project> list = service.findAll();
+        List<Project> list = selectservice.findAll();
 
         model.addAttribute("projectList", list);
         model.addAttribute("title", "プロジェクト一覧");
@@ -38,8 +45,7 @@ public class ProjectController {
     @PostMapping("/project/create")
     public String projectCreate(@ModelAttribute ProjectForm form, Model model) {
         Project project = form.toProject();
-        System.out.println(project);
-
+        registservice.regist(project);
         return "redirect:/projects";
     }
 
