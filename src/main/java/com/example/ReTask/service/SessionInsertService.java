@@ -2,6 +2,6 @@ package com.example.ReTask.service;
 
 import com.example.ReTask.entity.Session;
 
-public interface SessionInitService {
+public interface SessionInsertService {
     void initSession(Session session);
 }

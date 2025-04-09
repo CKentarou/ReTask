@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class SessionCountServiceImpl implements SessionCountService{
+public class SessionGetServiceImpl implements SessionGetService {
     private final SessionRepository repository;
 
     @Override

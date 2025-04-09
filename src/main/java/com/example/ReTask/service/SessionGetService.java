@@ -1,5 +1,5 @@
 package com.example.ReTask.service;
 
-public interface SessionCountService {
+public interface SessionGetService {
     int getSessionCount(int projectId);
 }
