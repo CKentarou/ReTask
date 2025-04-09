@@ -2,18 +2,26 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/bootstrap.html :: head"></head>
 <body>
-<h2>新規プロジェクト</h2>
-<form th:action="@{/project/create}" th:object="${projectForm}" method="post">
-    <div class="mb-3">
-        <label for="projectName" class="form-label">プロジェクト名</label>
-        <input type="text" th:field="*{projectName}" class="form-control" id="projectName" name="projectName" required>
+<div class="container mt-5 pt-5 text-center">
+    <div class="mx-auto w-50">
+        <h2 class="mb-4 fs-1">Create New Project</h2>
+        <form th:action="@{/project/create}" th:object="${projectForm}" method="post">
+            <div class="mb-3 text-start">
+                <label for="projectName" class="form-label">Project Name</label>
+                <input type="text" th:field="*{projectName}" class="form-control" id="projectName" name="projectName"
+                       required style="border: 2px solid #000;">
+            </div>
+            <div class="mb-3 text-start">
+                <label for="projectDescription" class="form-label">Discription</label>
+                <textarea th:field="*{projectDescription}" class="form-control" id="projectDescription"
+                          name="projectDescription" required style="border: 2px solid #000;"></textarea>
+            </div>
+            <input type="submit" class="btn btn-primary w-100 mt-4" value="Create">
+        </form>
+        <a th:href="@{/projects}" class="mt-2 d-block w-100 text-decoration-none text-center fs-5 text-dark"
+           style="border: 2px solid #000;" onmouseover="this.style.backgroundColor='#f0f0f0'"
+           onmouseout="this.style.backgroundColor=''">Back</a>
     </div>
-    <div class="mb-3">
-        <label for="projectDescription" class="form-label">プロジェクト説明</label>
-        <textarea th:field="*{projectDescription}" class="form-control" id="projectDescription" name="projectDescription" required></textarea>
-    </div>
-    <input type="submit" class="btn btn-primary" value="プロジェクト作成">
-</form>
-<a th:href="@{/projects}" class="btn btn-secondary">プロジェクト一覧に戻る</a>
+</div>
 </body>
 </html>
