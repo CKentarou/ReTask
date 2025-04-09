@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface ProjectRepository {
     List<Project> findAll();
+    Project findProjectById(Integer projectId);
     void save(Project project);
 }
