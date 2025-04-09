@@ -7,19 +7,23 @@
         <h2 th:text="${project.projectName}" class="fs-1"></h2>
         <p th:text="${project.projectDescription}" class="text-body-secondary fs-5"></p>
         <div class="my-5 py-5">
-            <!--    プロジェクトのwork_session数を表示-->
             <h3 class="fs-2">Work Session Count</h3>
-            <!--    もし０か１なら”数字　＋　session”-->
-            <!--    ２以上なら"数字　＋　sessions"-->
-            <!--    今は仮に０sessionとする-->
-            <p class="fs-3 mt-2">0 session</p>
-            <!--        <p th:if="${project.workSessionCount == 1}" class="fs-5">1 session</p>-->
-            <!--        <p th:if="${project.workSessionCount > 1}" class="fs-5" th:text="${project.workSessionCount} + ' sessions'"></p>-->
+            <p th:if="${sessionCount == 0}" class="fs-3 mt-2">0 session</p>
+            <p th:if="${sessionCount == 1}" class="fs-3 mt-2">1 session</p>
+            <p th:if="${sessionCount > 1}" class="fs-3 mt-2"
+               th:text="${sessionCount} + ' sessions'"></p>
         </div>
 
-        <a class="d-block w-100 text-decoration-none text-center fs-5 text-dark"
-           style="border: 2px solid #000;" onmouseover="this.style.backgroundColor='#f0f0f0'"
-           onmouseout="this.style.backgroundColor=''">New Session</a>
+        <form th:action="@{/new-session}" th:object="${sessionInitForm}" method="post">
+            <input type="hidden" name="projectId" th:value="${project.projectId}">
+            <input type="hidden" name="sessionCount" th:value="${sessionCount}">
+            <input type="submit"
+                   class="d-block w-100 text-decoration-none text-center fs-5 text-dark"
+                   style="border: 2px solid #000; background-color: white;"
+                   onmouseover="this.style.backgroundColor='#f0f0f0'"
+                   onmouseout="this.style.backgroundColor='white'"
+                   value="New Session">
+        </form>
         <a th:href="@{/projects}" class="mt-2 d-block w-100 text-decoration-none text-center fs-5 text-dark"
            style="border: 2px solid #000;" onmouseover="this.style.backgroundColor='#f0f0f0'"
            onmouseout="this.style.backgroundColor=''">Back</a>
