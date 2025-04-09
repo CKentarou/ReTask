@@ -3,10 +3,12 @@ package com.example.ReTask.controller;
 import com.example.ReTask.entity.Project;
 import com.example.ReTask.form.ProjectDeleteForm;
 import com.example.ReTask.form.ProjectDetailForm;
-import com.example.ReTask.form.ProjectForm;
+import com.example.ReTask.form.ProjectListForm;
+import com.example.ReTask.form.SessionInitForm;
 import com.example.ReTask.service.ProjectDeleteService;
 import com.example.ReTask.service.ProjectSearchService;
 import com.example.ReTask.service.ProjectRegistService;
+import com.example.ReTask.service.SessionCountService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,20 +20,22 @@ import java.util.List;
 @Controller
 public class ProjectController {
 
-    private final ProjectSearchService searchService;
+    private final ProjectSearchService projectSearchService;
     private final ProjectRegistService registService;
     private final ProjectDeleteService deleteService;
+    private final SessionCountService sessionCountService;
 
-    public ProjectController(ProjectSearchService searchService, ProjectRegistService registService, ProjectDeleteService deleteService) {
-        this.searchService = searchService;
+    public ProjectController(ProjectSearchService projectSearchService, ProjectRegistService registService, ProjectDeleteService deleteService, SessionCountService sessionCountService) {
+        this.projectSearchService = projectSearchService;
         this.registService = registService;
         this.deleteService = deleteService;
+        this.sessionCountService = sessionCountService;
     }
 
     @GetMapping("/projects")
     public String projectList(Model model) {
 
-        List<Project> list = searchService.findAll();
+        List<Project> list = projectSearchService.findAll();
 
         model.addAttribute("projectList", list);
         model.addAttribute("title", "プロジェクト一覧");
@@ -39,23 +43,25 @@ public class ProjectController {
     }
 
     @GetMapping("/project/create")
-    public String showProjectForm(@ModelAttribute ProjectForm form, Model model) {
+    public String showProjectForm(@ModelAttribute ProjectListForm form, Model model) {
         model.addAttribute("title", "プロジェクト作成");
         return "project-create";
     }
 
     @PostMapping("/project/create")
-    public String projectCreate(@ModelAttribute ProjectForm form, Model model) {
+    public String projectCreate(@ModelAttribute ProjectListForm form, Model model) {
         Project project = form.toProject();
         registService.regist(project);
         return "redirect:/projects";
     }
 
     @PostMapping("/project/detail")
-    public String showProjectDetail(@ModelAttribute ProjectDetailForm form, Model model) {
-        Project project = searchService.findProjectById(form.getProjectId());
+    public String showProjectDetail(@ModelAttribute ProjectDetailForm projectForm, @ModelAttribute SessionInitForm sessionForm, Model model) {
+        Project project = projectSearchService.findProjectById(projectForm.getProjectId());
+        int sessionCount = sessionCountService.getSessionCount(projectForm.getProjectId());
 
         model.addAttribute("project", project);
+        model.addAttribute("sessionCount", sessionCount);
         model.addAttribute("title", "プロジェクト詳細");
         return "project-detail";
     }
