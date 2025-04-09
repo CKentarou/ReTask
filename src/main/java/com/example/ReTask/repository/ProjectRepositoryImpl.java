@@ -54,5 +54,12 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         jdbcTemplate.update(sql, project.getProjectName(), project.getProjectDescription());
     }
 
+    @Override
+    public void deleteById(Integer projectId) {
+        String sql = "DELETE FROM projects WHERE id = ?";
+
+        jdbcTemplate.update(sql, projectId);
+    }
+
 
 }
