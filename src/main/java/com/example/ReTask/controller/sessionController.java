@@ -36,7 +36,6 @@ public class sessionController {
     public String showSessionPage(@RequestParam("sessionId") int sessionId, Model model) {
         //作成したsessionをDBから取得してモデルに追加する
         Session session = sessionGetService.getSessionBySessionId(sessionId);
-        System.out.println(session);
         model.addAttribute("session", session);
         return "new-session";
     }
