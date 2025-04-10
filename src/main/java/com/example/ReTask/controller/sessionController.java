@@ -7,10 +7,7 @@ import com.example.ReTask.service.SessionInsertService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -24,16 +21,15 @@ public class sessionController {
         this.sessionGetService = sessionGetService;
     }
 
-    @PostMapping("/session")
-    public String showSession(@ModelAttribute SessionInitForm form, RedirectAttributes redirectAttributes, Model model) {
-        Session session = form.toSession(form.getSessionCount());
+    @PostMapping("/project/{projectId}/sessions")
+    public String showSession(@PathVariable int projectId, @ModelAttribute SessionInitForm form, Model model) {
+        Session session = form.toSession(projectId);
         int sessionId = initService.initSession(session);
-//        redirectAttributes.addFlashAttribute("sessionId", sessionId);
-        return "redirect:/session?sessionId=" + sessionId;
+        return "redirect:/project/" + projectId + "/session/" + sessionId;
     }
 
-    @GetMapping("/session")
-    public String showSessionPage(@RequestParam("sessionId") int sessionId, Model model) {
+    @GetMapping("/project/{projectId}/session/{sessionId}")
+    public String showSessionPage(@PathVariable int sessionId, Model model) {
         //作成したsessionをDBから取得してモデルに追加する
         Session session = sessionGetService.getSessionBySessionId(sessionId);
         model.addAttribute("session", session);
