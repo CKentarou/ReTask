@@ -11,7 +11,7 @@ public class SessionInsertServiceImpl implements SessionInsertService {
     private final SessionRepository repository;
 
     @Override
-    public void initSession(Session session) {
-        repository.insertSession(session);
+    public int initSession(Session session) {
+        return repository.initSession(session);
     }
 }
