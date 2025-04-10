@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -56,9 +57,17 @@ public class ProjectController {
     }
 
     @PostMapping("/project/detail")
-    public String showProjectDetail(@ModelAttribute ProjectDetailForm projectForm, @ModelAttribute SessionInitForm sessionForm, Model model) {
-        Project project = projectSearchService.findProjectById(projectForm.getProjectId());
-        int sessionCount = sessionGetService.getSessionCount(projectForm.getProjectId());
+    public String showProjectDetail(@ModelAttribute ProjectDetailForm projectForm, Model model) {
+        int projectId = projectForm.getProjectId();
+
+        return "redirect:/project/detail?projectId=" + projectId;
+    }
+
+    @GetMapping("/project/detail")
+    public String showProjectDetail(@RequestParam("projectId") int projectId, Model model) {
+
+        Project project = projectSearchService.findProjectById(projectId);
+        int sessionCount = sessionGetService.getSessionCount(projectId);
 
         model.addAttribute("project", project);
         model.addAttribute("sessionCount", sessionCount);
