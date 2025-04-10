@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -27,14 +28,13 @@ public class sessionController {
     public String showSession(@ModelAttribute SessionInitForm form, RedirectAttributes redirectAttributes, Model model) {
         Session session = form.toSession(form.getSessionCount());
         int sessionId = initService.initSession(session);
-        redirectAttributes.addFlashAttribute("sessionId", sessionId);
-        return "redirect:/new-session";
+//        redirectAttributes.addFlashAttribute("sessionId", sessionId);
+        return "redirect:/new-session?sessionId=" + sessionId;
     }
 
     @GetMapping("/new-session")
-    public String showSessionPage(Model model) {
+    public String showSessionPage(@RequestParam("sessionId") int sessionId, Model model) {
         //作成したsessionをDBから取得してモデルに追加する
-        Integer sessionId = (Integer) model.getAttribute("sessionId");  //sessionIdを取得
         Session session = sessionGetService.getSessionBySessionId(sessionId);
         System.out.println(session);
         model.addAttribute("session", session);
