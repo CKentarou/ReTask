@@ -11,10 +11,9 @@ public class SessionInitForm {
     private int sessionCount;
     private Date sessionDate;
 
-    public Session toSession(int sessionCount) {
+    public Session toSession(int projectId) {
         Session session = new Session();
-        session.setProjectId(this.projectId);
-        session.setSessionNumber(sessionCount + 1);
+        session.setProjectId(projectId);
         session.setSessionDate(new Date(System.currentTimeMillis()));
         return session;
     }
