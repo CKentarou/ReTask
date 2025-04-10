@@ -6,7 +6,7 @@
     <div th:if="${projectList} != null" class="mx-auto w-50">
         <h2 class="mb-4 fs-1">Select Project</h2>
         <div class="table-responsive">
-            <table class="table table-hover table-border" style="border: 2px solid #000;">
+            <table class="table table-hover table-borderless" style="border: 2px solid #000;">
                 <tr th:each="project : ${projectList}"
                     th:onclick="|document.getElementById('form-' + ${project.projectId}).submit()|"
                     style="cursor: pointer;">
