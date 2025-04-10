@@ -24,19 +24,19 @@ public class sessionController {
         this.sessionGetService = sessionGetService;
     }
 
-    @PostMapping("/new-session")
+    @PostMapping("/session")
     public String showSession(@ModelAttribute SessionInitForm form, RedirectAttributes redirectAttributes, Model model) {
         Session session = form.toSession(form.getSessionCount());
         int sessionId = initService.initSession(session);
 //        redirectAttributes.addFlashAttribute("sessionId", sessionId);
-        return "redirect:/new-session?sessionId=" + sessionId;
+        return "redirect:/session?sessionId=" + sessionId;
     }
 
-    @GetMapping("/new-session")
+    @GetMapping("/session")
     public String showSessionPage(@RequestParam("sessionId") int sessionId, Model model) {
         //作成したsessionをDBから取得してモデルに追加する
         Session session = sessionGetService.getSessionBySessionId(sessionId);
         model.addAttribute("session", session);
-        return "new-session";
+        return "session";
     }
 }

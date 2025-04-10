@@ -14,7 +14,7 @@
                th:text="${sessionCount} + ' sessions'"></p>
         </div>
 
-        <form th:action="@{/new-session}" th:object="${sessionInitForm}" method="post">
+        <form th:action="@{/session}" th:object="${sessionInitForm}" method="post">
             <input type="hidden" name="projectId" th:value="${project.projectId}">
             <input type="hidden" name="sessionCount" th:value="${sessionCount}">
             <input type="submit"

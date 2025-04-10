@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/bootstrap.html :: head"></head>
+<body>
+<div class="container mt-5 pt-5 text-center">
+    <div class="mx-auto w-50">
+        <div class="my-3">
+            <h2 id="timer-display" style="font-size: 5rem;"></h2>
+        </div>
+        <h2 class="fs-1">Session's Tasks</h2>
+        <!-- テーブルのレイアウトをproject-listと揃える -->
+        <div class="table-responsive mt-4">
+            <table class="table table-hover table-borderless" style="border: 2px solid #000;">
+                <tr>
+                    <td class="text-start fs-5">
+                        <input type="checkbox" id="Task1" name="Task1"/>
+                        <label for="Task1">Task 1</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-start fs-5">
+                        <input type="checkbox" id="Task2" name="Task2"/>
+                        <label for="Task2">Task 2</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-start fs-5">
+                        <input type="checkbox" id="Task3" name="Task3"/>
+                        <label for="Task3">Task 3</label>
+                    </td>
+                </tr>
+            </table>
+
+            <!--            <form>-->
+            <input type="submit"
+                   class="d-block w-100 text-decoration-none text-center fs-5 text-dark"
+                   style="border: 2px solid #000; background-color: white;"
+                   onmouseover="this.style.backgroundColor='#f0f0f0'"
+                   onmouseout="this.style.backgroundColor='white'"
+                   value="Add Task">
+            <!--            </form>-->
+            <!--            <form>-->
+            <input type="submit" class="btn btn-success mt-2 w-100" id="start-btn" value="Start Session">
+            <input type="submit" class="btn btn-warning mt-2 w-100" id="stop-btn" value="Stop Session">
+            <!--            </form>-->
+        </div>
+
+        <div>
+        </div>
+
+        <script>
+            let seconds = 0;
+            let timerInterval = null;
+
+            const timerDisplay = document.getElementById('timer-display');
+            const startBtn = document.getElementById('start-btn');
+            const stopBtn = document.getElementById('stop-btn');
+
+            // 初期状態でストップボタンを非表示にする
+            stopBtn.style.display = 'none';
+
+            // 数値を2桁にフォーマットする関数
+            function formatTime(value) {
+                return value.toString().padStart(2, '0');
+            }
+
+            startBtn.addEventListener('click', () => {
+                timerInterval = setInterval(() => {
+                    seconds++;
+
+                    const hours = Math.floor(seconds / 3600);
+                    const minutes = Math.floor((seconds % 3600) / 60);
+                    const secs = seconds % 60;
+
+                    timerDisplay.textContent = `${formatTime(hours)}:${formatTime(minutes)}:${formatTime(secs)}`;
+                }, 1000);
+
+                // ボタンの表示を切り替える
+                startBtn.style.display = 'none';
+                stopBtn.style.display = 'block';
+
+                // 必要に応じてSpringに「スタートした」ことを通知
+                // fetch('/start', { method: 'POST' }); など
+            });
+
+            stopBtn.addEventListener('click', () => {
+                clearInterval(timerInterval);
+
+                // ボタンの表示を切り替える
+                startBtn.style.display = 'block';
+                stopBtn.style.display = 'none';
+
+                // 必要に応じてSpringに「終了したこと」や経過時間を送る
+                // fetch('/stop', {
+                //   method: 'POST',
+                //   headers: { 'Content-Type': 'application/json' },
+                //   body: JSON.stringify({ elapsed: seconds })
+                // });
+            });
+        </script>
+    </div>
+</div>
+</body>
+</html>
