@@ -10,6 +10,7 @@ import java.sql.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Session {
+    private Integer sessionId;
     private Integer projectId;
     private Date sessionDate;
     private Integer sessionNumber;
