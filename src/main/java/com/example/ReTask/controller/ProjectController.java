@@ -8,7 +8,7 @@ import com.example.ReTask.form.SessionInitForm;
 import com.example.ReTask.service.ProjectDeleteService;
 import com.example.ReTask.service.ProjectSearchService;
 import com.example.ReTask.service.ProjectRegistService;
-import com.example.ReTask.service.SessionCountService;
+import com.example.ReTask.service.SessionGetService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,13 +23,13 @@ public class ProjectController {
     private final ProjectSearchService projectSearchService;
     private final ProjectRegistService registService;
     private final ProjectDeleteService deleteService;
-    private final SessionCountService sessionCountService;
+    private final SessionGetService sessionGetService;
 
-    public ProjectController(ProjectSearchService projectSearchService, ProjectRegistService registService, ProjectDeleteService deleteService, SessionCountService sessionCountService) {
+    public ProjectController(ProjectSearchService projectSearchService, ProjectRegistService registService, ProjectDeleteService deleteService, SessionGetService sessionGetService) {
         this.projectSearchService = projectSearchService;
         this.registService = registService;
         this.deleteService = deleteService;
-        this.sessionCountService = sessionCountService;
+        this.sessionGetService = sessionGetService;
     }
 
     @GetMapping("/projects")
@@ -58,7 +58,7 @@ public class ProjectController {
     @PostMapping("/project/detail")
     public String showProjectDetail(@ModelAttribute ProjectDetailForm projectForm, @ModelAttribute SessionInitForm sessionForm, Model model) {
         Project project = projectSearchService.findProjectById(projectForm.getProjectId());
-        int sessionCount = sessionCountService.getSessionCount(projectForm.getProjectId());
+        int sessionCount = sessionGetService.getSessionCount(projectForm.getProjectId());
 
         model.addAttribute("project", project);
         model.addAttribute("sessionCount", sessionCount);
