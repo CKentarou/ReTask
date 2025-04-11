@@ -31,6 +31,7 @@ public class SessionController {
         //作成したsessionをDBから取得してモデルに追加する
         Session session = sessionGetService.getSessionBySessionId(sessionId);
         model.addAttribute("session", session);
+        model.addAttribute("title", "セッション");
         return "session";
     }
 
