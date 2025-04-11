@@ -4,19 +4,17 @@ import com.example.ReTask.entity.Session;
 import com.example.ReTask.form.SessionInitForm;
 import com.example.ReTask.service.SessionGetService;
 import com.example.ReTask.service.SessionInsertService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 
-public class sessionController {
+public class SessionController {
     private final SessionInsertService initService;
     private final SessionGetService sessionGetService;
 
-    public sessionController(SessionInsertService initService, SessionGetService sessionGetService) {
+    public SessionController(SessionInsertService initService, SessionGetService sessionGetService) {
         this.initService = initService;
         this.sessionGetService = sessionGetService;
     }
