@@ -43,10 +43,4 @@ stopBtn.addEventListener('click', () => {
     // startBtnは再表示しない
     stopBtn.style.display = 'none';
 
-    // Spring側に経過時間を送信
-    // fetch('/stop', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify({ elapsed: seconds })
-    // });
 });
