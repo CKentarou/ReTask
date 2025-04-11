@@ -15,6 +15,9 @@ function formatTime(value) {
 
 // セッション開始ボタンのクリックイベント
 startBtn.addEventListener('click', () => {
+    //スタートボタンからセッションIDを取得
+    const sessionId = document.getElementById('start-btn').dataset.sessionId;
+
     timerInterval = setInterval(() => {
         seconds++;
 
@@ -29,8 +32,8 @@ startBtn.addEventListener('click', () => {
     startBtn.style.display = 'none';
     stopBtn.style.display = 'block';
 
-    // 必要に応じてSpringに「スタートした」ことを通知
-    // fetch('/start', { method: 'POST' });
+    // Springにスタートしたことを通知
+    fetch(`/api/start/${sessionId}`, {method: 'POST'})
 });
 
 // セッション停止ボタンのクリックイベント
@@ -40,10 +43,4 @@ stopBtn.addEventListener('click', () => {
     // startBtnは再表示しない
     stopBtn.style.display = 'none';
 
-    // Spring側に経過時間を送信
-    // fetch('/stop', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify({ elapsed: seconds })
-    // });
 });
