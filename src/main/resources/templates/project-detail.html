@@ -14,15 +14,14 @@
                th:text="${sessionCount} + ' sessions'"></p>
         </div>
 
-        <form th:action="@{/new-session}" th:object="${sessionInitForm}" method="post">
-            <input type="hidden" name="projectId" th:value="${project.projectId}">
-            <input type="hidden" name="sessionCount" th:value="${sessionCount}">
+        <form th:action="@{/project/{projectId}/sessions(projectId=${project.projectId})}" th:object="${sessionInitForm}" method="post">
             <input type="submit"
                    class="d-block w-100 text-decoration-none text-center fs-5 text-dark"
                    style="border: 2px solid #000; background-color: white;"
                    onmouseover="this.style.backgroundColor='#f0f0f0'"
                    onmouseout="this.style.backgroundColor='white'"
-                   value="New Session">
+                   value="New Session"
+                   onclick="return confirm('新しいセッションを作成しますか？')">
         </form>
         <a th:href="@{/projects}" class="mt-2 d-block w-100 text-decoration-none text-center fs-5 text-dark"
            style="border: 2px solid #000;" onmouseover="this.style.backgroundColor='#f0f0f0'"

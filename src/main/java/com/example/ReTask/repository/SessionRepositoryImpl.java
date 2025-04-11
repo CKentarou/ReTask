@@ -43,7 +43,7 @@ public class SessionRepositoryImpl implements SessionRepository{
     @Override
     public int initSession(Session session) {
         // 新しい作業セッションをDBに挿入し、自動生成されたIDを取得して返す
-        String sql = "INSERT INTO work_sessions (project_id, session_date, session_number) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO work_sessions (project_id, session_date) VALUES (?, ?)";
 
         // 自動生成された主キー（ID）を受け取るためのKeyHolderを準備
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -56,7 +56,6 @@ public class SessionRepositoryImpl implements SessionRepository{
             // プレースホルダーに値をバインド（?の順番に注意）
             ps.setInt(1, session.getProjectId());          // プロジェクトID
             ps.setDate(2, session.getSessionDate());       // セッション日付（java.sql.Date）
-            ps.setInt(3, session.getSessionNumber());      // セッション番号（その日の何回目かなど）
 
             return ps; // 準備したStatementを返す
         }, keyHolder);

@@ -6,17 +6,16 @@
     <div th:if="${projectList} != null" class="mx-auto w-50">
         <h2 class="mb-4 fs-1">Select Project</h2>
         <div class="table-responsive">
-            <table class="table table-hover table-border" style="border: 2px solid #000;">
-                <tr th:each="project : ${projectList}"
-                    th:onclick="|document.getElementById('form-' + ${project.projectId}).submit()|"
-                    style="cursor: pointer;">
-                    <form th:action="@{/project/detail}" method="post" th:id="'form-' + ${project.projectId}">
-                        <input type="hidden" name="projectId" th:value="${project.projectId}">
-                    </form>
-                    <td th:text="${project.projectName}" class="fs-5 text-start p-3"></td>
-                    <td th:text="${project.projectDescription}" class="text-start p-3 text-body-secondary"
-                        style="vertical-align: middle;"></td>
-                </tr>
+            <table class="table table-hover table-borderless" style="border: 2px solid #000;">
+                <form th:each="project : ${projectList}" th:id="'form-' + ${project.projectId}"
+                      th:action="@{/project/{projectId}(projectId=${project.projectId})}" method="get">
+                    <tr th:onclick="|document.getElementById('form-' + ${project.projectId}).submit()|"
+                        style="cursor: pointer;">
+                        <td th:text="${project.projectName}" class="fs-5 text-start p-3"></td>
+                        <td th:text="${project.projectDescription}" class="text-start p-3 text-body-secondary"
+                            style="vertical-align: middle;"></td>
+                    </tr>
+                </form>
             </table>
         </div>
         <div class="mt-2">

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/bootstrap.html :: head"></head>
+<body>
+<div class="container mt-5 pt-5 text-center">
+    <div class="mx-auto w-50">
+        <div class="my-3" style="min-height: 6rem;">
+            <h2 id="timer-display" style="font-size: 5rem;"></h2>
+        </div>
+
+
+        <h2 class="fs-1">Session's Tasks</h2>
+        <!-- テーブルのレイアウトをproject-listと揃える -->
+        <!--   仮のレイアウト     -->
+        <div class="table-responsive mt-4">
+            <table class="table table-hover table-borderless" style="border: 2px solid #000;">
+                <tr>
+                    <td class="text-start fs-5">
+                        <input type="checkbox" id="Task1" name="Task1"/>
+                        <label for="Task1">Task 1</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-start fs-5">
+                        <input type="checkbox" id="Task2" name="Task2"/>
+                        <label for="Task2">Task 2</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-start fs-5">
+                        <input type="checkbox" id="Task3" name="Task3"/>
+                        <label for="Task3">Task 3</label>
+                    </td>
+                </tr>
+            </table>
+
+            <input type="submit"
+                   class="d-block w-100 text-decoration-none text-center fs-5 text-dark"
+                   style="border: 2px solid #000; background-color: white;"
+                   onmouseover="this.style.backgroundColor='#f0f0f0'"
+                   onmouseout="this.style.backgroundColor='white'"
+                   value="Add Task">
+
+            <input type="submit" class="btn btn-success mt-2 w-100" id="start-btn" value="Start Session"
+                   th:attr="data-session-id=${sessionId}">
+            <form th:action="@{/project/{projectId}/session/{sessionId}/result(projectId=${projectId}, sessionId=${sessionId})}" method="get">
+                <input type="submit" class="btn btn-warning mt-2 w-100" id="stop-btn" value="Stop Session"
+                       onclick="return confirm('このセッションを終了しますか？')" th:attr="data-session-id=${sessionId}">
+            </form>
+        </div>
+
+        <div>
+        </div>
+
+        <script src="/js/session-timer.js"></script>
+
+    </div>
+</div>
+</body>
+</html>

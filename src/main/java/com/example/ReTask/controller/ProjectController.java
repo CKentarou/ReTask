@@ -11,10 +11,7 @@ import com.example.ReTask.service.ProjectRegistService;
 import com.example.ReTask.service.SessionGetService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -56,15 +53,8 @@ public class ProjectController {
         return "redirect:/projects";
     }
 
-    @PostMapping("/project/detail")
-    public String showProjectDetail(@ModelAttribute ProjectDetailForm projectForm, Model model) {
-        int projectId = projectForm.getProjectId();
-
-        return "redirect:/project/detail?projectId=" + projectId;
-    }
-
-    @GetMapping("/project/detail")
-    public String showProjectDetail(@RequestParam("projectId") int projectId, Model model) {
+    @GetMapping("/project/{projectId}")
+    public String showProjectDetail(@PathVariable int projectId, Model model) {
 
         Project project = projectSearchService.findProjectById(projectId);
         int sessionCount = sessionGetService.getSessionCount(projectId);
