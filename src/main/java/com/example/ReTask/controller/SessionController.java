@@ -33,4 +33,10 @@ public class SessionController {
         model.addAttribute("session", session);
         return "session";
     }
+
+    @PostMapping("/api/start/{sessionId}")
+    @ResponseBody
+    public void startSession(@PathVariable int sessionId) {
+        System.out.println("セッションを開始した処理を実行" + sessionId);
+    }
 }
