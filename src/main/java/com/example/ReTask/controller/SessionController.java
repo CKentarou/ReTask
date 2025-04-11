@@ -27,10 +27,11 @@ public class SessionController {
     }
 
     @GetMapping("/project/{projectId}/session/{sessionId}")
-    public String showSessionPage(@PathVariable int sessionId, Model model) {
+    public String showSessionPage(@PathVariable int projectId, @PathVariable int sessionId, Model model) {
         //作成したsessionをDBから取得してモデルに追加する
         Session session = sessionGetService.getSessionBySessionId(sessionId);
-        model.addAttribute("session", session);
+        model.addAttribute("sessionId", sessionId);
+        model.addAttribute("projectId", projectId);
         model.addAttribute("title", "セッション");
         return "session";
     }
@@ -39,5 +40,11 @@ public class SessionController {
     @ResponseBody
     public void startSession(@PathVariable int sessionId) {
         System.out.println("セッションを開始した処理を実行" + sessionId);
+    }
+
+    @GetMapping("/project/{projectId}/session/{sessionId}/result")
+    public String showSessionResult(@PathVariable int sessionId, Model model) {
+        System.out.println("セッションを終了した処理を実行" + sessionId);
+        return "session-result";
     }
 }

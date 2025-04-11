@@ -43,8 +43,10 @@
 
             <input type="submit" class="btn btn-success mt-2 w-100" id="start-btn" value="Start Session"
                    th:attr="data-session-id=${sessionId}">
-            <input type="submit" class="btn btn-warning mt-2 w-100" id="stop-btn" value="Stop Session"
-                   onclick="return confirm('このセッションを終了しますか？')" th:attr="data-session-id=${sessionId}">
+            <form th:action="@{/project/{projectId}/session/{sessionId}/result(projectId=${projectId}, sessionId=${sessionId})}" method="get">
+                <input type="submit" class="btn btn-warning mt-2 w-100" id="stop-btn" value="Stop Session"
+                       onclick="return confirm('このセッションを終了しますか？')" th:attr="data-session-id=${sessionId}">
+            </form>
         </div>
 
         <div>
