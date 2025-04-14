@@ -68,7 +68,7 @@ function loadTasks(sessionId) {
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td class="text-start fs-5">
-                        <input type="checkbox" id="Task${task.id}" name="Task${task.id}" ${task.status ? 'checked' : ''}/>
+                        <input type="checkbox" id="Task${task.id}" name="Task${task.id}" ${task.status === 'COMPLETED' ? 'checked' : ''}/>
                         <label for="Task${task.id}">${task.taskName}</label>
                     </td>
                 `;
