@@ -3,7 +3,6 @@ package com.example.ReTask.controller;
 import com.example.ReTask.entity.Project;
 import com.example.ReTask.form.ProjectDeleteForm;
 import com.example.ReTask.form.ProjectListForm;
-import com.example.ReTask.form.SessionInitForm;
 import com.example.ReTask.service.ProjectDeleteService;
 import com.example.ReTask.service.ProjectSearchService;
 import com.example.ReTask.service.ProjectRegistService;

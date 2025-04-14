@@ -37,6 +37,8 @@ function createTask() {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({ name: taskName })
+    }).then(() => {
+        loadTasks(sessionId);
     })
 }
 
@@ -53,3 +55,29 @@ function handleTaskForm() {
 
 // 入力フィールドのイベントリスナーを設定
 document.getElementById('task-name').addEventListener('input', updateButtonState);
+
+// タスクを取得してテーブルに表示する関数
+function loadTasks(sessionId) {
+    fetch(`/api/task/${sessionId}`)
+        .then(response => response.json())
+        .then(tasks => {
+            const table = document.querySelector('.table tbody');
+            table.innerHTML = ''; // テーブルをクリア
+
+            tasks.forEach(task => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="text-start fs-5">
+                        <input type="checkbox" id="Task${task.id}" name="Task${task.id}" ${task.status ? 'checked' : ''}/>
+                        <label for="Task${task.id}">${task.taskName}</label>
+                    </td>
+                `;
+                table.appendChild(row);
+            });
+        });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const sessionId = document.getElementById('add-task-btn').dataset.sessionId;
+    loadTasks(sessionId);
+});
