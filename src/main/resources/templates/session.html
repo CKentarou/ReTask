@@ -10,7 +10,6 @@
 
 
         <h2 class="fs-1">Session's Tasks</h2>
-        <!-- テーブルのレイアウトをproject-listと揃える -->
         <!--   仮のレイアウト     -->
         <div class="table-responsive mt-4">
             <table class="table table-hover table-borderless" style="border: 2px solid #000;">
@@ -34,16 +33,33 @@
                 </tr>
             </table>
 
-            <input type="submit"
+            <!-- モーダル背景 -->
+            <div id="modal-background"
+                 style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 1000;">
+                <!-- モーダルウィンドウ -->
+                <div id="task-form"
+                     style="position: fixed; top: 40%; left: 50%; transform: translate(-50%, -50%); width: 30%; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 1001;">
+                    <h3>New Task</h3>
+                    <input type="text" id="task-name" class="form-control" placeholder="Task Name">
+                    <button id="action-button" class="btn btn-primary mt-2 w-100">閉じる</button>
+                </div>
+            </div>
+
+            <!-- Add Taskボタン -->
+            <input type="button"
+                   id="add-task-btn"
                    class="d-block w-100 text-decoration-none text-center fs-5 text-dark"
                    style="border: 2px solid #000; background-color: white;"
                    onmouseover="this.style.backgroundColor='#f0f0f0'"
                    onmouseout="this.style.backgroundColor='white'"
-                   value="Add Task">
+                   value="Add Task"
+                   onclick="showTaskForm()"
+                   th:attr="data-session-id=${sessionId}">
 
             <input type="submit" class="btn btn-success mt-2 w-100" id="start-btn" value="Start Session"
                    th:attr="data-session-id=${sessionId}">
-            <form th:action="@{/project/{projectId}/session/{sessionId}/result(projectId=${projectId}, sessionId=${sessionId})}" method="get">
+            <form th:action="@{/project/{projectId}/session/{sessionId}/result(projectId=${projectId}, sessionId=${sessionId})}"
+                  method="get">
                 <input type="submit" class="btn btn-warning mt-2 w-100" id="stop-btn" value="Stop Session"
                        onclick="return confirm('このセッションを終了しますか？')" th:attr="data-session-id=${sessionId}">
             </form>
@@ -53,6 +69,7 @@
         </div>
 
         <script src="/js/session-timer.js"></script>
+        <script src="/js/task-form.js"></script>
 
     </div>
 </div>
