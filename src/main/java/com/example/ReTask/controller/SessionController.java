@@ -8,21 +8,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 @Controller
 
 public class SessionController {
-    private final SessionInsertService initService;
+    private final SessionInsertService sessionInsertService;
     private final SessionGetService sessionGetService;
 
-    public SessionController(SessionInsertService initService, SessionGetService sessionGetService) {
-        this.initService = initService;
+    public SessionController(SessionInsertService sessionInsertService, SessionGetService sessionGetService) {
+        this.sessionInsertService = sessionInsertService;
         this.sessionGetService = sessionGetService;
     }
 
     @PostMapping("/project/{projectId}/sessions")
     public String showSession(@PathVariable int projectId, @ModelAttribute SessionInitForm form, Model model) {
         Session session = form.toSession(projectId);
-        int sessionId = initService.initSession(session);
+        int sessionId = sessionInsertService.initSession(session);
         return "redirect:/project/" + projectId + "/session/" + sessionId;
     }
 
@@ -39,12 +42,18 @@ public class SessionController {
     @PostMapping("/api/start/{sessionId}")
     @ResponseBody
     public void startSession(@PathVariable int sessionId) {
-        System.out.println("セッションを開始した処理を実行" + sessionId);
+        LocalDateTime nowTime = LocalDateTime.now();
+        Timestamp startTime = Timestamp.valueOf(nowTime);
+
+        sessionInsertService.updateSessionStartTime(sessionId, startTime);
     }
 
     @GetMapping("/project/{projectId}/session/{sessionId}/result")
     public String showSessionResult(@PathVariable int sessionId, Model model) {
-        System.out.println("セッションを終了した処理を実行" + sessionId);
+        LocalDateTime nowTime = LocalDateTime.now();
+        Timestamp endTime = Timestamp.valueOf(nowTime);
+
+        sessionInsertService.updateSessionEndTime(sessionId, endTime);
         return "session-result";
     }
 }

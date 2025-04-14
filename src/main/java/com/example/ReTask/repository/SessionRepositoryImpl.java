@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.sql.Timestamp;
 
 @Repository
 @RequiredArgsConstructor
@@ -62,5 +63,17 @@ public class SessionRepositoryImpl implements SessionRepository{
 
         // 自動生成されたIDを取得して返す（例: AUTO_INCREMENTされた主キー）
         return keyHolder.getKey().intValue();
+    }
+
+    @Override
+    public void updateSessionStartTime(Integer sessionId, Timestamp startTime) {
+        String sql = "UPDATE work_sessions SET started_at = ? WHERE id = ?";
+        jdbcTemplate.update(sql, startTime, sessionId);
+    }
+
+    @Override
+    public void updateSessionEndTime(Integer sessionId, Timestamp endTime) {
+        String sql = "UPDATE work_sessions SET ended_at = ? WHERE id = ?";
+        jdbcTemplate.update(sql, endTime, sessionId);
     }
 }
