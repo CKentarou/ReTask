@@ -34,7 +34,6 @@ public class SessionRepositoryImpl implements SessionRepository{
             session.setSessionId(rs.getInt("id"));
             session.setProjectId(rs.getInt("project_id"));
             session.setSessionDate(rs.getDate("session_date"));
-            session.setSessionNumber(rs.getInt("session_number"));
             session.setStarted_at(rs.getDate("started_at"));
             session.setEnded_at(rs.getDate("ended_at"));
             return session;
