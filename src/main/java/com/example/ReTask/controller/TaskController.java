@@ -33,4 +33,11 @@ public class TaskController {
     public List<Task> getTasksBySessionId(@PathVariable int sessionId) {
         return taskGetService.getTasksBySessionId(sessionId);
     }
+
+    @PutMapping("/api/task/{taskId}/status")
+    @ResponseBody
+    public void updateTaskStatus(@PathVariable int taskId, @RequestBody Map<String, String> requestBody) {
+        String status = requestBody.get("status");
+        taskInsertServis.updateTaskStatus(taskId, status);
+    }
 }

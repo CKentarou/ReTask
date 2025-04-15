@@ -7,7 +7,6 @@ function showTaskForm() {
 
 // フォームを非表示にする関数
 function hideTaskForm() {
-    console.log("閉じる");
     document.getElementById('modal-background').style.display = 'none';
 }
 
@@ -29,7 +28,6 @@ function updateButtonState() {
 function createTask() {
     const taskName = document.getElementById('task-name').value.trim();
     const sessionId = document.getElementById('add-task-btn').dataset.sessionId;
-    console.log("タスク名:", taskName, "セッションID:", sessionId);
 
     fetch(`/api/task/${sessionId}`, {
         method: 'POST',
@@ -68,7 +66,7 @@ function loadTasks(sessionId) {
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td class="text-start fs-5">
-                        <input type="checkbox" id="Task${task.id}" name="Task${task.id}" ${task.status ? 'checked' : ''}/>
+                        <input type="checkbox" id="Task${task.taskId}" name="Task${task.taskId}" ${task.status === 'COMPLETED' ? 'checked' : ''}/>
                         <label for="Task${task.id}">${task.taskName}</label>
                     </td>
                 `;
@@ -80,4 +78,30 @@ function loadTasks(sessionId) {
 document.addEventListener('DOMContentLoaded', () => {
     const sessionId = document.getElementById('add-task-btn').dataset.sessionId;
     loadTasks(sessionId);
+});
+
+// チェックボックスの状態変更を監視してサーバーにリクエストを送信する関数
+function updateTaskStatus(taskId, isCompleted) {
+    const status = isCompleted ? 'COMPLETED' : 'PENDING';
+
+    fetch(`/api/task/${taskId}/status`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ status: status })
+    }).then(response => {
+        if (!response.ok) {
+            console.error('Failed to update task status');
+        }
+    });
+}
+
+// チェックボックスにイベントリスナーを追加
+document.addEventListener('change', (event) => {
+    if (event.target.type === 'checkbox' && event.target.id.startsWith('Task')) {
+        const taskId = event.target.id.replace('Task', '');
+        const isCompleted = event.target.checked;
+        updateTaskStatus(taskId, isCompleted);
+    }
 });
