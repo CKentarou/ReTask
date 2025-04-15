@@ -8,4 +8,5 @@ public interface TaskRepository {
     void addTaskToSession(int sessionId, String taskName);
     List<Task> getTasksBySessionId(int sessionId);
     void updateTaskStatus(int taskId, String status);
+    int getTaskCountByStatus(int sessionId, String status);
 }

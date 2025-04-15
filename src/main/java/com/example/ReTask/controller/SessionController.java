@@ -4,6 +4,7 @@ import com.example.ReTask.entity.Session;
 import com.example.ReTask.form.SessionInitForm;
 import com.example.ReTask.service.SessionGetService;
 import com.example.ReTask.service.SessionInsertService;
+import com.example.ReTask.service.TaskGetService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +17,12 @@ import java.time.LocalDateTime;
 public class SessionController {
     private final SessionInsertService sessionInsertService;
     private final SessionGetService sessionGetService;
+    private final TaskGetService taskGetService;
 
-    public SessionController(SessionInsertService sessionInsertService, SessionGetService sessionGetService) {
+    public SessionController(SessionInsertService sessionInsertService, SessionGetService sessionGetService, TaskGetService taskGetService) {
         this.sessionInsertService = sessionInsertService;
         this.sessionGetService = sessionGetService;
+        this.taskGetService = taskGetService;
     }
 
     @PostMapping("/project/{projectId}/sessions")
@@ -52,6 +55,14 @@ public class SessionController {
     public String showSessionResult(@PathVariable int sessionId, Model model) {
         LocalDateTime nowTime = LocalDateTime.now();
         Timestamp endTime = Timestamp.valueOf(nowTime);
+
+        // 仮のデータ（DBから取得する場合はリポジトリを使用）
+        int completedCount = taskGetService.getTaskCountByStatus(sessionId, "COMPLETED"); // 完了タスク数
+        int incompleteCount = taskGetService.getTaskCountByStatus(sessionId, "PENDING"); // 未完了タスク数
+
+        // モデルにデータを追加
+        model.addAttribute("completedCount", completedCount);
+        model.addAttribute("incompleteCount", incompleteCount);
 
         sessionInsertService.updateSessionEndTime(sessionId, endTime);
         return "session-result";

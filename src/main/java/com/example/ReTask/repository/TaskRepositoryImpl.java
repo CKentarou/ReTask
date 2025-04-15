@@ -45,4 +45,10 @@ public class TaskRepositoryImpl implements TaskRepository {
         String sql = "UPDATE tasks SET status = ? WHERE id = ?";
         jdbcTemplate.update(sql, status, taskId);
     }
+
+    @Override
+    public int getTaskCountByStatus(int sessionId, String status) {
+        String sql = "SELECT COUNT(*) FROM tasks WHERE work_session_id = ? AND status = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, sessionId, status);
+    }
 }
