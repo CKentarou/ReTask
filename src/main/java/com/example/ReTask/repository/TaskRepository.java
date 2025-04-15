@@ -7,4 +7,5 @@ import java.util.List;
 public interface TaskRepository {
     void addTaskToSession(int sessionId, String taskName);
     List<Task> getTasksBySessionId(int sessionId);
+    void updateTaskStatus(int taskId, String status);
 }
