@@ -2,6 +2,7 @@
 function showTaskForm() {
     document.getElementById('task-name').value = ''; // フォームを空にする
     document.getElementById('modal-background').style.display = 'block';
+    document.getElementById('task-name').focus();
     updateButtonState(); // ボタンの状態を初期化
 }
 
