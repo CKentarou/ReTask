@@ -1,6 +1,7 @@
 package com.example.ReTask.controller;
 
 import com.example.ReTask.entity.Session;
+import com.example.ReTask.entity.Task;
 import com.example.ReTask.form.SessionInitForm;
 import com.example.ReTask.service.SessionGetService;
 import com.example.ReTask.service.SessionInsertService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 
@@ -55,12 +57,16 @@ public class SessionController {
     public String showSessionResult(@PathVariable int sessionId, Model model) {
         LocalDateTime nowTime = LocalDateTime.now();
         Timestamp endTime = Timestamp.valueOf(nowTime);
+        List<Task> completedTasks = taskGetService.getTasksBySessionIdAndStatus(sessionId, "COMPLETED");
+        List<Task> incompleteTasks = taskGetService.getTasksBySessionIdAndStatus(sessionId, "PENDING");
 
         // 仮のデータ（DBから取得する場合はリポジトリを使用）
         int completedCount = taskGetService.getTaskCountByStatus(sessionId, "COMPLETED"); // 完了タスク数
         int incompleteCount = taskGetService.getTaskCountByStatus(sessionId, "PENDING"); // 未完了タスク数
 
         // モデルにデータを追加
+        model.addAttribute("completedTasks", completedTasks);
+        model.addAttribute("incompleteTasks", incompleteTasks);
         model.addAttribute("completedCount", completedCount);
         model.addAttribute("incompleteCount", incompleteCount);
         model.addAttribute("title", "セッション結果");

@@ -22,4 +22,9 @@ public class TaskGetServiceImpl implements TaskGetService{
     public int getTaskCountByStatus(int sessionId, String status) {
         return repository.getTaskCountByStatus(sessionId, status);
     }
+
+    @Override
+    public List<Task> getTasksBySessionIdAndStatus(int sessionId, String status) {
+        return repository.getTasksBySessionIdAndStatus(sessionId, status);
+    }
 }

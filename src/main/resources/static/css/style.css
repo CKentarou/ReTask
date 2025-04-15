@@ -1,0 +1,25 @@
+        /* タスクリストのスタイル */
+        .list-group li {
+            list-style-type: none; /* 点を消す */
+            text-align: left; /* 左寄せ */
+            padding: 10px; /* 余白を追加 */
+            border: 1px solid #ddd; /* 枠線を追加 */
+            border-radius: 5px; /* 角を丸くする */
+            margin-bottom: 10px; /* 下に余白を追加 */
+        }
+
+        /* グラフとリストの間の余白 */
+        .row > div {
+            padding: 15px;
+        }
+
+        /* ボタンのスタイル */
+        input[type="submit"] {
+            border: 2px solid #000;
+            background-color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #f0f0f0;
+        }
