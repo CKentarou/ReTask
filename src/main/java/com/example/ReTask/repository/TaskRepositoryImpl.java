@@ -36,7 +36,23 @@ public class TaskRepositoryImpl implements TaskRepository {
             task.setStatus(Status.valueOf((String) one.get("status")));
             result.add(task);
         }
+        return result;
+    }
 
+    @Override
+    public List<Task> getTasksBySessionIdAndStatus(int sessionId, String status) {
+        String sql = "SELECT * FROM tasks WHERE work_session_id = ? AND status = ?";
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, sessionId, status);
+        List<Task> result = new java.util.ArrayList<Task>();
+
+        for (Map<String, Object> one : list) {
+            Task task = new Task();
+            task.setTaskId(((Number) one.get("id")).intValue());
+            task.setSessionId(((Number) one.get("work_session_id")).intValue());
+            task.setTaskName((String) one.get("task_name"));
+            task.setStatus(Status.valueOf((String) one.get("status")));
+            result.add(task);
+        }
         return result;
     }
 
@@ -44,5 +60,11 @@ public class TaskRepositoryImpl implements TaskRepository {
     public void updateTaskStatus(int taskId, String status) {
         String sql = "UPDATE tasks SET status = ? WHERE id = ?";
         jdbcTemplate.update(sql, status, taskId);
+    }
+
+    @Override
+    public int getTaskCountByStatus(int sessionId, String status) {
+        String sql = "SELECT COUNT(*) FROM tasks WHERE work_session_id = ? AND status = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, sessionId, status);
     }
 }
