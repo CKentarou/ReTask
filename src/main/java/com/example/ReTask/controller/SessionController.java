@@ -63,6 +63,7 @@ public class SessionController {
         // モデルにデータを追加
         model.addAttribute("completedCount", completedCount);
         model.addAttribute("incompleteCount", incompleteCount);
+        model.addAttribute("title", "セッション結果");
 
         sessionInsertService.updateSessionEndTime(sessionId, endTime);
         return "session-result";
