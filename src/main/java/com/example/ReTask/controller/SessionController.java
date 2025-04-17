@@ -54,7 +54,7 @@ public class SessionController {
     }
 
     @GetMapping("/project/{projectId}/session/{sessionId}/result")
-    public String showSessionResult(@PathVariable int sessionId, Model model) {
+    public String showSessionResult(@PathVariable int projectId, @PathVariable int sessionId, Model model) {
         LocalDateTime nowTime = LocalDateTime.now();
         Timestamp endTime = Timestamp.valueOf(nowTime);
         List<Task> completedTasks = taskGetService.getTasksBySessionIdAndStatus(sessionId, "COMPLETED");
@@ -69,9 +69,50 @@ public class SessionController {
         model.addAttribute("incompleteTasks", incompleteTasks);
         model.addAttribute("completedCount", completedCount);
         model.addAttribute("incompleteCount", incompleteCount);
+        model.addAttribute("sessionId", sessionId);
+        model.addAttribute("projectId", projectId);
         model.addAttribute("title", "セッション結果");
 
         sessionInsertService.updateSessionEndTime(sessionId, endTime);
         return "session-result";
+    }
+
+    @GetMapping("/project/{projectId}/session/{sessionId}/kpt")
+    public String showSessionKPT(@PathVariable int projectId, @PathVariable int sessionId, Model model) {
+        // KPTのデータを取得する処理を追加
+        // 例: List<KPT> kptList = kptService.getKPTBySessionId(sessionId);
+
+        // モデルにデータを追加
+        model.addAttribute("sessionId", sessionId);
+        model.addAttribute("projectId", projectId);
+        // model.addAttribute("kptList", kptList);
+        model.addAttribute("title", "KPT");
+        return "session-kpt";
+    }
+
+    @GetMapping("/project/{projectId}/session/{sessionId}/next-task")
+    public String showNextTaskForm(@PathVariable int projectId, @PathVariable int sessionId, Model model) {
+        // 次のタスクのフォームを表示する処理を追加
+        // 例: List<Task> taskList = taskService.getTasksBySessionId(sessionId);
+
+        // モデルにデータを追加
+        model.addAttribute("sessionId", sessionId);
+        model.addAttribute("projectId", projectId);
+        // model.addAttribute("taskList", taskList);
+        model.addAttribute("title", "次のタスク");
+        return "next-task-form";
+    }
+
+    @GetMapping("/project/{projectId}/session/{sessionId}/review")
+    public String showReviewPage(@PathVariable int projectId, @PathVariable int sessionId, Model model) {
+        // レビューのデータを取得する処理を追加
+        // 例: List<Review> reviewList = reviewService.getReviewsBySessionId(sessionId);
+
+        // モデルにデータを追加
+        model.addAttribute("sessionId", sessionId);
+        model.addAttribute("projectId", projectId);
+        // model.addAttribute("reviewList", reviewList);
+        model.addAttribute("title", "レビュー");
+        return "session-review";
     }
 }

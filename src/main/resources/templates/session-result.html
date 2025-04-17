@@ -40,7 +40,7 @@
     </div>
 
     <div class="mx-auto w-50 mt-4">
-        <form>
+        <form th:action="@{/project/{projectId}/session/{sessionId}/kpt(projectId=${projectId}, sessionId=${sessionId})}" method="get">
             <input type="submit"
                    class="d-block w-100 text-decoration-none text-center fs-5 text-dark"
                    value="Enter KPT">
